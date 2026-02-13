@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine ❤️</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background: radial-gradient(circle at top, #3b0a1a, #000000 70%);
+overflow:hidden;
+color:white;
+text-align:center;
+}
+
+/* Golden stars */
+body::before{
+content:"";
+position:absolute;
+width:200%;
+height:200%;
+background-image:
+radial-gradient(#ffd700 1px, transparent 1px);
+background-size:40px 40px;
+animation: moveStars 60s linear infinite;
+opacity:0.3;
+}
+
+@keyframes moveStars{
+from{transform:translateY(0);}
+to{transform:translateY(-100px);}
+}
+
+.container{
+position:relative;
+z-index:2;
+width:90%;
+max-width:700px;
+}
+
+video{
+width:100%;
+border-radius:20px;
+box-shadow:0 0 40px rgba(255,215,0,0.6);
+}
+
+.hidden{
+display:none;
+}
+
+h1{
+font-size:2.5rem;
+margin-bottom:15px;
+color:#ffd700;
+}
+
+.quote{
+font-style:italic;
+margin-bottom:20px;
+font-size:1.2rem;
+color:#ffcccc;
+}
+
+.heart{
+font-size:120px;
+animation:beat 1s infinite;
+transition:all 2s ease;
+margin:20px 0;
+}
+
+@keyframes beat{
+0%,100%{transform:scale(1);}
+50%{transform:scale(1.2);}
+}
+
+.options{
+margin-top:20px;
+}
+
+button{
+padding:12px 30px;
+margin:10px;
+font-size:1.1rem;
+border:none;
+border-radius:30px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.yes{
+background:linear-gradient(45deg,#ffd700,#ff4e75);
+color:black;
+font-weight:bold;
+}
+
+.no{
+background:#222;
+color:#ccc;
+border:1px solid #444;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- INTRO VIDEO -->
+<video id="introVideo" autoplay muted>
+<source src="intro.mp4" type="video/mp4">
+</video>
+
+<!-- QUESTION SECTION -->
+<div id="questionSection" class="hidden">
+<h1>Will you be my Valentine?</h1>
+<div class="quote">"a heart for my heart"</div>
+<div id="heart" class="heart">❤️</div>
+
+<div class="options">
+<button class="yes" onclick="answer('yes')">Yes</button>
+<button class="no" onclick="answer('no')">No</button>
+</div>
+</div>
+
+<!-- RESULT VIDEO -->
+<video id="resultVideo" class="hidden" muted>
+<source id="resultSource" src="" type="video/mp4">
+</video>
+
+</div>
+
+<script>
+
+const introVideo = document.getElementById("introVideo");
+const questionSection = document.getElementById("questionSection");
+const resultVideo = document.getElementById("resultVideo");
+const resultSource = document.getElementById("resultSource");
+const heart = document.getElementById("heart");
+
+introVideo.onended = () => {
+introVideo.classList.add("hidden");
+questionSection.classList.remove("hidden");
+};
+
+function answer(choice){
+
+heart.style.animation="none";
+
+if(choice==="yes"){
+heart.style.transform="scale(6)";
+heart.style.opacity="0";
+setTimeout(()=>{
+showResult("yes.mp4");
+},2000);
+}
+else{
+heart.style.transform="scale(0)";
+heart.style.opacity="0.2";
+setTimeout(()=>{
+showResult("no.mp4");
+},2000);
+}
+}
+
+function showResult(videoFile){
+questionSection.classList.add("hidden");
+resultSource.src=videoFile;
+resultVideo.load();
+resultVideo.classList.remove("hidden");
+resultVideo.play();
+}
+
+</script>
+
+</body>
+</html>
